@@ -14,7 +14,7 @@ namespace BankApp.Data.Repos
             _dbContext = dbContext;
         }
 
-        public int AddCustomer(Customer customer, User user)
+        public async Task AddCustomerAsync(Customer customer, User user)
         {
             var param = new DynamicParameters();
             param.Add("@GivenName", customer.GivenName);
@@ -39,7 +39,7 @@ namespace BankApp.Data.Repos
 
             using (IDbConnection db = _dbContext.GetConnection())
             {
-                return db.Execute("CreateCustomerWithUserAndAccount", param, commandType: CommandType.StoredProcedure);
+                await db.ExecuteAsync("CreateCustomerWithUserAndAccount", param, commandType: CommandType.StoredProcedure);
             }
         }
     }

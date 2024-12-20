@@ -21,22 +21,22 @@ namespace BankApp.Api.Controllers
 
         [Authorize(Roles = "User")]
         [HttpGet]
-        public IActionResult GetAccountsForCustomer()
+        public async Task<IActionResult> GetAccountsForCustomer()
         {
             int userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
 
-            List<AccountReadDTO> accounts = _service.GetAccountsForCustomer(userId);
+            IEnumerable<AccountReadDTO> accounts = await _service.GetAccountsForCustomerAsync(userId);
 
             return Ok(accounts);
         }
 
         [Authorize]
         [HttpPost]
-        public IActionResult AddAccount(AccountCreateDTO accountDto)
+        public async Task<IActionResult> AddAccount(AccountCreateDTO accountDto)
         {
             int userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
 
-            _service.AddAccount(userId, accountDto);
+            await _service.AddAccountAsync(userId, accountDto);
 
             return Ok();
         }

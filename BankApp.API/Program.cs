@@ -1,17 +1,18 @@
 using AutoMapper;
 using BankApp.Core.Interfaces;
-using BankApp.Core.Profiles;
 using BankApp.Core.Services;
 using BankApp.Data.DataModels;
 using BankApp.Data.Interfaces;
 using BankApp.Data.Repos;
+using BankApp.Domain.Profiles;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+//builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+builder.Services.AddAutoMapper(typeof(TransactionProfile).Assembly, typeof(AccountProfile).Assembly, typeof(UserProfile).Assembly, typeof(LoanProfile).Assembly, typeof(CustomerProfile).Assembly);
 builder.Services.AddControllers();
 builder.Services.AddSwaggerGen();
 
@@ -55,6 +56,9 @@ app.UseSwaggerUI();
 //{
 //    cfg.AddProfile<CustomerProfile>();
 //    cfg.AddProfile<AccountProfile>();
+//    cfg.AddProfile<TransactionProfile>();
+//    cfg.AddProfile<UserProfile>();
+//    cfg.AddProfile<LoanProfile>();
 //});
 
 //// Validate the AutoMapper configuration

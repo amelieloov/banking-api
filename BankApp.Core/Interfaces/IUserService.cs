@@ -5,7 +5,7 @@ namespace BankApp.Core.Interfaces
 {
     public interface IUserService
     {
-        public string VerifyLoginAsync(UserDTO userDto);
+        public Task<string> VerifyLoginAsync(UserDTO userDto);
         public string GenerateJwtToken(User user);
     }
 }

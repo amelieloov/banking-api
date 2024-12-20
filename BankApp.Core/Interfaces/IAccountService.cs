@@ -5,7 +5,7 @@ namespace BankApp.Core.Interfaces
 {
     public interface IAccountService
     {
-        public List<AccountReadDTO> GetAccountsForCustomer(int customerId);
-        public void AddAccount(int customerId, AccountCreateDTO accountDto);
+        public Task<IEnumerable<AccountReadDTO>> GetAccountsForCustomerAsync(int customerId);
+        public Task AddAccountAsync(int customerId, AccountCreateDTO accountDto);
     }
 }

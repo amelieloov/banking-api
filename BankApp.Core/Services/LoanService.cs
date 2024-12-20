@@ -17,13 +17,13 @@ namespace BankApp.Core.Services
             _mapper = mapper;
         }
 
-        public int AddLoan(LoanDTO loanDto)
+        public async Task AddLoanAsync(LoanDTO loanDto)
         {
             var loan = _mapper.Map<Loan>(loanDto);
             loan.Date = DateTime.Now;
             loan.Payments = loan.Amount / loan.Duration;
 
-            return _repo.AddLoan(loan);
+            await _repo.AddLoanAsync(loan);
         }
     }
 }

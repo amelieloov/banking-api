@@ -4,6 +4,6 @@ namespace BankApp.Data.Interfaces
 {
     public interface ICustomerRepo
     {
-        public int AddCustomer(Customer customer, User user);
+        public Task AddCustomerAsync(Customer customer, User user);
     }
 }

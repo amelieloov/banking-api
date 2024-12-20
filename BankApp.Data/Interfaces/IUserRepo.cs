@@ -4,6 +4,6 @@ namespace BankApp.Data.Interfaces
 {
     public interface IUserRepo
     {
-        public User GetLoginCreds(string username);
+        public Task<User> GetLoginCredsAsync(string username);
     }
 }

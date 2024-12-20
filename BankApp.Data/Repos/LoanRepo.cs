@@ -14,7 +14,7 @@ namespace BankApp.Data.Repos
             _dbContext = dbContext;
         }
 
-        public int AddLoan(Loan loan)
+        public async Task AddLoanAsync(Loan loan)
         {
             var param = new DynamicParameters();
             param.Add("@AccountId", loan.AccountId);
@@ -26,7 +26,7 @@ namespace BankApp.Data.Repos
 
             using(IDbConnection db = _dbContext.GetConnection())
             {
-                return db.Execute("AddLoanAndUpdateAccountBalance", param, commandType: CommandType.StoredProcedure);
+                await db.ExecuteAsync("MakeLoan", param, commandType: CommandType.StoredProcedure);
             }
         }
     }

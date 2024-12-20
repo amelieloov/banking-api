@@ -3,6 +3,7 @@ using BankApp.Core.Interfaces;
 using BankApp.Data.Interfaces;
 using BankApp.Domain.DTOs;
 using BankApp.Domain.Models;
+using System.Security.Claims;
 
 namespace BankApp.Core.Services
 {
@@ -17,10 +18,10 @@ namespace BankApp.Core.Services
             _mapper = mapper;
         }
 
-        public List<AccountReadDTO> GetAccountsForCustomer(int userId)
+        public async Task<IEnumerable<AccountReadDTO>> GetAccountsForCustomerAsync(int userId)
         {
-            var customerId = _repo.GetCustomerId(userId);
-            var accounts = _repo.GetAccountsForCustomer(customerId);
+            //var customerId = _repo.GetCustomerId(userId);
+            var accounts = await _repo.GetAccountsForCustomerAsync(userId);
 
             List<AccountReadDTO> accountReadDtos = new List<AccountReadDTO>();
 
@@ -32,17 +33,15 @@ namespace BankApp.Core.Services
             return accountReadDtos;
         }
 
-        public void AddAccount(int userId, AccountCreateDTO accountDto)
+        public async Task AddAccountAsync(int userId, AccountCreateDTO accountDto)
         {
             //check if username exists etc
             //_repo.GetAccountByUsername(account.Username);
-            var customerId = _repo.GetCustomerId(userId);
+            //var customerId = await _repo.GetCustomerId(userId);
 
             var account = _mapper.Map<Account>(accountDto);
-            account.Created = DateTime.Now;
-            account.Balance = 0;
 
-            _repo.AddAccount(customerId, account);
+            await _repo.AddAccountAsync(userId, account);
         }
     }
 }

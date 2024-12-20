@@ -20,9 +20,9 @@ namespace BankApp.Api.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpPost]
-        public IActionResult AddLoan(LoanDTO loanDto)
+        public async Task<IActionResult> AddLoan(LoanDTO loanDto)
         {
-            _service.AddLoan(loanDto);
+            await _service.AddLoanAsync(loanDto);
 
             return Ok(loanDto);
         }

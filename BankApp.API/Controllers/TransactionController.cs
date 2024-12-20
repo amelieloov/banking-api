@@ -20,20 +20,20 @@ namespace BankApp.Api.Controllers
 
         [Authorize(Roles = "User")]
         [HttpGet]
-        public IActionResult GetTransactionsForAccount(int accountId)
+        public async Task<IActionResult> GetTransactionsForAccount(int accountId)
         {
-            List<TransactionReadDTO> transactions = _service.GetTransactionsForAccount(accountId);
+            List<TransactionReadDTO> transactions = await _service.GetTransactionsForAccountAsync(accountId);
 
             return Ok(transactions);
         }
 
         [Authorize(Roles = "User")]
         [HttpPost]
-        public IActionResult MakeTransfer(TransactionDTO transactionDto)
+        public async Task<IActionResult> MakeTransfer(TransactionDTO transactionDto)
         {
             try
             {
-                _service.MakeTransfer(transactionDto);
+                await _service.MakeTransferAsync(transactionDto);
             }
             catch (Exception)
             {

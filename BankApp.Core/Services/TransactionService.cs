@@ -18,16 +18,16 @@ namespace BankApp.Core.Services
             _mapper = mapper;
         }
 
-        public int MakeTransfer(TransactionDTO transactionDto)
+        public async Task MakeTransferAsync(TransactionDTO transactionDto)
         {
             var transaction = _mapper.Map<Transaction>(transactionDto);
 
-            return _repo.MakeTransfer(transaction);
+            await _repo.MakeTransferAsync(transaction);
         }
 
-        public List<TransactionReadDTO> GetTransactionsForAccount(int accountId)
+        public async Task<List<TransactionReadDTO>> GetTransactionsForAccountAsync(int accountId)
         {
-            var transactions = _repo.GetTransactionsForAccount(accountId);
+            var transactions = await _repo.GetTransactionsForAccountAsync(accountId);
             var transactionsDtos = new List<TransactionReadDTO>();
 
             foreach(var transaction in transactions)
