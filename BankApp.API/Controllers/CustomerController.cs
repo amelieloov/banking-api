@@ -1,8 +1,6 @@
 ﻿using BankApp.Core.Interfaces;
 using BankApp.Domain.DTOs;
-using BankApp.Domain.Models;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BankApp.Api.Controllers
@@ -20,11 +18,11 @@ namespace BankApp.Api.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpPost]
-        public IActionResult AddCustomer(CustomerAndUserDTO customerAndUserDto)
+        public async Task<IActionResult> AddCustomer(CustomerAndUserDTO customerAndUserDto)
         {
-            _service.AddCustomer(customerAndUserDto.Customer, customerAndUserDto.User);
+            var result = await _service.AddCustomerAsync(customerAndUserDto.Customer, customerAndUserDto.User);
 
-            return Ok("Customer created with a new user and account.");
+            return Ok(result);
         }
     }
 }

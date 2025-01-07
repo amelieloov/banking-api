@@ -14,19 +14,21 @@ namespace BankApp.Data.Repos
             _dbContext = dbContext;
         }
 
-        public async Task<User> GetLoginCreds(string username)
+        public async Task<User> GetLoginCredsAsync(string username)
         {
             var param = new DynamicParameters();
             param.Add("Username", username);
 
             using (IDbConnection db = _dbContext.GetConnection())
             {
-                return db.Query<User, Role, User>("GetLoginCreds", (u, r) =>
+                var user = await db.QueryAsync<User, Role, User>("GetLoginCreds", (u, r) =>
                 {
                     u.Role = r;
                     return u;
 
-                }, param, splitOn: "RoleId", commandType: CommandType.StoredProcedure).SingleOrDefault();
+                }, param, splitOn: "RoleId", commandType: CommandType.StoredProcedure);
+
+                return user.SingleOrDefault();
             }
         }
     }

@@ -2,7 +2,7 @@
 using BankApp.Domain.DTOs;
 using BankApp.Domain.Models;
 
-namespace BankApp.Core.Profiles
+namespace BankApp.Domain.Profiles
 {
     public class UserProfile : Profile
     {

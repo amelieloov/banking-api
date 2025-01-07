@@ -1,8 +1,6 @@
 ﻿using BankApp.Core.Interfaces;
 using BankApp.Domain.DTOs;
-using BankApp.Domain.Models;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BankApp.Api.Controllers
@@ -20,11 +18,16 @@ namespace BankApp.Api.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpPost]
-        public IActionResult AddLoan(LoanDTO loanDto)
+        public async Task<IActionResult> AddLoan(LoanDTO loanDto)
         {
-            _service.AddLoan(loanDto);
+            if (loanDto.Amount <= 0 || loanDto.Duration <= 0)
+            {
+                return BadRequest("Duration and amount must be higher than 0.");
+            }
 
-            return Ok(loanDto);
+            var loanId = await _service.AddLoanAsync(loanDto);
+
+            return Ok(@"Loan successfully added with id " + loanId);
         }
     }
 }

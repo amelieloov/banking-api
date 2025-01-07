@@ -4,6 +4,6 @@ namespace BankApp.Core.Interfaces
 {
     public interface ILoanService
     {
-        public int AddLoan(LoanDTO loanDto);
+        public Task<int> AddLoanAsync(LoanDTO loanDto);
     }
 }

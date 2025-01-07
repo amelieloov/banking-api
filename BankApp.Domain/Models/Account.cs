@@ -2,10 +2,6 @@
 {
     public class Account
     {
-        public Account()
-        {
-        }
-
         public int AccountId { get; set; }
         public DateTime Created { get; set; }
         public decimal Balance { get; set; }

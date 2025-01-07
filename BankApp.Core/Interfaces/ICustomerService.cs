@@ -5,6 +5,6 @@ namespace BankApp.Core.Interfaces
 {
     public interface ICustomerService
     {
-        public void AddCustomer(CustomerDTO customer, UserDTO userDto);
+        public Task<CustomerCreateResultDTO> AddCustomerAsync(CustomerDTO customer, UserDTO userDto);
     }
 }

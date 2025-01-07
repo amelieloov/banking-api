@@ -1,9 +1,8 @@
 ﻿using BankApp.Core.Interfaces;
 using BankApp.Domain.DTOs;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using BankApp.Domain.Models;
+using System.Security.Claims;
 
 namespace BankApp.Api.Controllers
 {
@@ -20,27 +19,46 @@ namespace BankApp.Api.Controllers
 
         [Authorize(Roles = "User")]
         [HttpGet]
-        public IActionResult GetTransactionsForAccount(int accountId)
+        public async Task<IActionResult> GetTransactionsForAccount(int accountId)
         {
-            List<TransactionReadDTO> transactions = _service.GetTransactionsForAccount(accountId);
+            int userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+            List<TransactionReadDTO> transactions = new List<TransactionReadDTO>();
+
+            try
+            {
+                transactions = await _service.GetTransactionsForAccountAsync(userId, accountId);
+            }
+            catch (UnauthorizedAccessException)
+            {
+                return Unauthorized("Invalid account ID.");
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, "An error occurred while getting transfers.");
+            }
 
             return Ok(transactions);
         }
 
         [Authorize(Roles = "User")]
         [HttpPost]
-        public IActionResult MakeTransfer(TransactionDTO transactionDto)
+        public async Task<IActionResult> MakeTransfer(TransactionDTO transactionDto)
         {
+            int userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+
             try
             {
-                _service.MakeTransfer(transactionDto);
+                var transactionResult = await _service.MakeTransferAsync(userId, transactionDto);
+                return Ok(transactionResult);
+            }
+            catch (UnauthorizedAccessException)
+            {
+                return Unauthorized("Invalid account ID.");
             }
             catch (Exception)
             {
                 return StatusCode(500, "An error occurred while making transfer.");
             }
-
-            return Ok();
         }
     }
 }

@@ -1,6 +1,5 @@
 ﻿using BankApp.Core.Interfaces;
 using BankApp.Domain.DTOs;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BankApp.Api.Controllers
@@ -19,9 +18,15 @@ namespace BankApp.Api.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login(UserDTO userDto)
         {
-            var token = await _service.VerifyLoginAsync(userDto);
-
-            return Ok(new { Token = token });
+            try
+            {
+                var token = await _service.VerifyLoginAsync(userDto);
+                return Ok(new { Token = token });
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                return Unauthorized(new {message = ex.Message});
+            }
         }
     }
 }

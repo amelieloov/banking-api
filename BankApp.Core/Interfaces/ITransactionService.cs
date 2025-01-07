@@ -5,7 +5,7 @@ namespace BankApp.Core.Interfaces
 {
     public interface ITransactionService
     {
-        public List<TransactionReadDTO> GetTransactionsForAccount(int accountId);
-        public int MakeTransfer(TransactionDTO transactionDto);
+        public Task<List<TransactionReadDTO>> GetTransactionsForAccountAsync(int userId, int accountId);
+        public Task<TransactionResultDTO> MakeTransferAsync(int userId, TransactionDTO transactionDto);
     }
 }
