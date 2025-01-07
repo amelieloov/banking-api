@@ -1,6 +1,7 @@
 ﻿using BankApp.Data.Interfaces;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
+using System.Data;
 
 namespace BankApp.Data.DataModels
 {
@@ -13,7 +14,7 @@ namespace BankApp.Data.DataModels
             _connString = config.GetConnectionString("BankApp");
         }
 
-        public SqlConnection GetConnection()
+        public IDbConnection GetConnection()
         {
             return new SqlConnection(_connString);
         }

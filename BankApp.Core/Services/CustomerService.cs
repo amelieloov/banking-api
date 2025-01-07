@@ -17,14 +17,14 @@ namespace BankApp.Core.Services
             _mapper = mapper;
         }
 
-        public async Task AddCustomerAsync(CustomerDTO customerDto, UserDTO userDto)
+        public async Task<CustomerCreateResultDTO> AddCustomerAsync(CustomerDTO customerDto, UserDTO userDto)
         {
             var customer = _mapper.Map<Customer>(customerDto);
 
             var user = _mapper.Map<User>(userDto);
             user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(user.Password);
 
-            await _repo.AddCustomerAsync(customer, user);
+            return await _repo.AddCustomerAsync(customer, user);
         }
     }
 }

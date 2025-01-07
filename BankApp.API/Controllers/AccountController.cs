@@ -1,8 +1,6 @@
 ﻿using BankApp.Core.Interfaces;
 using BankApp.Domain.DTOs;
-using BankApp.Domain.Models;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
@@ -36,9 +34,9 @@ namespace BankApp.Api.Controllers
         {
             int userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
 
-            await _service.AddAccountAsync(userId, accountDto);
+            var accountId = await _service.AddAccountAsync(userId, accountDto);
 
-            return Ok();
+            return Ok($"Account created with id {accountId}.");
         }
     }
 }

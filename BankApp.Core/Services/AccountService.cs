@@ -3,7 +3,6 @@ using BankApp.Core.Interfaces;
 using BankApp.Data.Interfaces;
 using BankApp.Domain.DTOs;
 using BankApp.Domain.Models;
-using System.Security.Claims;
 
 namespace BankApp.Core.Services
 {
@@ -20,7 +19,6 @@ namespace BankApp.Core.Services
 
         public async Task<IEnumerable<AccountReadDTO>> GetAccountsForCustomerAsync(int userId)
         {
-            //var customerId = _repo.GetCustomerId(userId);
             var accounts = await _repo.GetAccountsForCustomerAsync(userId);
 
             List<AccountReadDTO> accountReadDtos = new List<AccountReadDTO>();
@@ -33,7 +31,7 @@ namespace BankApp.Core.Services
             return accountReadDtos;
         }
 
-        public async Task AddAccountAsync(int userId, AccountCreateDTO accountDto)
+        public async Task<int> AddAccountAsync(int userId, AccountCreateDTO accountDto)
         {
             //check if username exists etc
             //_repo.GetAccountByUsername(account.Username);
@@ -41,7 +39,7 @@ namespace BankApp.Core.Services
 
             var account = _mapper.Map<Account>(accountDto);
 
-            await _repo.AddAccountAsync(userId, account);
+            return await _repo.AddAccountAsync(userId, account);
         }
     }
 }

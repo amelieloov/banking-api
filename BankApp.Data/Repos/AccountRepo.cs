@@ -32,10 +32,10 @@ namespace BankApp.Data.Repos
             }
         }
 
-        public async Task AddAccountAsync(int userId, Account account)
+        public async Task<int> AddAccountAsync(int userId, Account account)
         {
             var param = new DynamicParameters();
-            param.Add("@userId", userId);
+            param.Add("@UserId", userId);
             param.Add("@Frequency", account.Frequency);
             param.Add("@AccountTypeId", account.AccountTypeId);
             param.Add("@AccountId", dbType: DbType.Int32, direction: ParameterDirection.Output);
@@ -43,19 +43,9 @@ namespace BankApp.Data.Repos
             using (IDbConnection db = _dbContext.GetConnection())
             {
                 await db.ExecuteAsync("AddAccount", param, commandType: CommandType.StoredProcedure);
+
+                return param.Get<int>("@AccountId");
             }
         }
-
-        //public async Task<int> GetCustomerId(int userId)
-        //{
-        //    var param = new DynamicParameters();
-        //    param.Add("@UserId", userId);
-
-        //    using(IDbConnection db = _dbContext.GetConnection())
-        //    {
-        //        var id = await db.QuerySingleOrDefaultAsync<int>("GetCustomerId", param, commandType: CommandType.StoredProcedure);
-        //        return id;
-        //    }
-        //}
     }
 }

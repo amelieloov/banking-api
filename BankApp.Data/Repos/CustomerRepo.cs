@@ -1,4 +1,5 @@
 ﻿using BankApp.Data.Interfaces;
+using BankApp.Domain.DTOs;
 using BankApp.Domain.Models;
 using Dapper;
 using System.Data;
@@ -14,7 +15,7 @@ namespace BankApp.Data.Repos
             _dbContext = dbContext;
         }
 
-        public async Task AddCustomerAsync(Customer customer, User user)
+        public async Task<CustomerCreateResultDTO> AddCustomerAsync(Customer customer, User user)
         {
             var param = new DynamicParameters();
             param.Add("@GivenName", customer.GivenName);
@@ -40,6 +41,13 @@ namespace BankApp.Data.Repos
             using (IDbConnection db = _dbContext.GetConnection())
             {
                 await db.ExecuteAsync("CreateCustomerWithUserAndAccount", param, commandType: CommandType.StoredProcedure);
+
+                return new CustomerCreateResultDTO
+                {
+                    CustomerId = param.Get<int>("@CustomerId"),
+                    UserId = param.Get<int>("@UserId"),
+                    AccountId = param.Get<int>("@AccountId")
+                };
             }
         }
     }

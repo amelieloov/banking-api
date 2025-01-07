@@ -5,6 +5,6 @@ namespace BankApp.Data.Interfaces
     public interface IAccountRepo
     {
         public Task<IEnumerable<Account>> GetAccountsForCustomerAsync(int customerId);
-        public Task AddAccountAsync(int customerId, Account account);
+        public Task<int> AddAccountAsync(int customerId, Account account);
     }
 }

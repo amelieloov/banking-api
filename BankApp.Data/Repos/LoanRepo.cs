@@ -14,19 +14,21 @@ namespace BankApp.Data.Repos
             _dbContext = dbContext;
         }
 
-        public async Task AddLoanAsync(Loan loan)
+        public async Task<int> AddLoanAsync(Loan loan)
         {
             var param = new DynamicParameters();
             param.Add("@AccountId", loan.AccountId);
-            param.Add("@Date", loan.Date);
             param.Add("@Amount", loan.Amount);
             param.Add("@Duration", loan.Duration);
             param.Add("@Payments", loan.Payments);
             param.Add("@Status", loan.Status);
+            param.Add("@LoanId", dbType: DbType.Int32, direction: ParameterDirection.Output);
 
             using(IDbConnection db = _dbContext.GetConnection())
             {
                 await db.ExecuteAsync("MakeLoan", param, commandType: CommandType.StoredProcedure);
+
+                return param.Get<int>("@LoanId");
             }
         }
     }

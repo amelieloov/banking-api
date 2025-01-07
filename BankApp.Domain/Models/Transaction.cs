@@ -2,6 +2,13 @@
 {
     public class Transaction
     {
+        //public Transaction(int transactionId, int accountId, decimal amount)
+        //{
+        //    TransactionId = transactionId;
+        //    AccountId = accountId;
+        //    Amount = amount;
+        //}
+
         public int TransactionId { get; set; }
         public int AccountId { get; set; }
         public int DestAccountId { get; set; }

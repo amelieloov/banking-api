@@ -1,4 +1,5 @@
 ﻿using BankApp.Data.Interfaces;
+using BankApp.Domain.DTOs;
 using BankApp.Domain.Models;
 using Dapper;
 using System.Data;
@@ -14,16 +15,24 @@ namespace BankApp.Data.Repos
             _dbContext = dbContext;
         }
 
-        public async Task MakeTransferAsync(Transaction transaction)
+        public async Task<TransactionResultDTO> MakeTransferAsync(Transaction transaction)
         {
             var param = new DynamicParameters();
-            param.Add("@AccountId", transaction.AccountId);
-            param.Add("@DestAccountId", transaction.DestAccountId);
+            param.Add("@DebitAccountId", transaction.AccountId);
+            param.Add("@CreditAccountId", transaction.DestAccountId);
             param.Add("@Amount", transaction.Amount);
+            param.Add("@DebitTransactionId", dbType: DbType.Int32, direction: ParameterDirection.Output);
+            param.Add("@CreditTransactionId", dbType: DbType.Int32, direction: ParameterDirection.Output);
 
             using (IDbConnection db = _dbContext.GetConnection())
             {
                 await db.ExecuteAsync("MakeTransfer", param, commandType: CommandType.StoredProcedure);
+
+                return new TransactionResultDTO
+                {
+                    DebitTransactionId = param.Get<int>("@DebitTransactionId"),
+                    CreditTransactionId = param.Get<int>("@CreditTransactionId")
+                };
             }
         }
 
