@@ -1,14 +1,10 @@
-using AutoMapper;
 using BankApp.Api.Extensions;
 using BankApp.Core.Interfaces;
+using BankApp.Domain.Profiles;
 using BankApp.Core.Services;
 using BankApp.Data.DataModels;
 using BankApp.Data.Interfaces;
 using BankApp.Data.Repos;
-using BankApp.Domain.Profiles;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,24 +26,6 @@ builder.Services.AddScoped<IUserRepo, UserRepo>();
 builder.Services.AddScoped<IUserService, UserService>();
 
 builder.Services.AddAuth();
-//builder.Services.AddAuthentication(opt =>
-//{
-//    opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-//    opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-//})
-//.AddJwtBearer(opt =>
-//{
-//    opt.TokenValidationParameters = new TokenValidationParameters
-//    {
-//        ValidateIssuer = true,
-//        ValidateAudience = true,
-//        ValidateLifetime = true,
-//        ValidateIssuerSigningKey = true,
-//        ValidIssuer = "https://localhost:7214/",
-//        ValidAudience = "https://localhost:7214/",
-//        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("fkls5235k325bb25b23blb52352b35235b2b532knels"))
-//    };
-//});
 
 var app = builder.Build();
 

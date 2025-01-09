@@ -20,7 +20,7 @@ namespace BankApp.Core.Services
 
         public async Task<string> VerifyLoginAsync(UserDTO userDto)
         {
-            var user = await _repo.GetLoginCredsAsync(userDto.Username);
+            var user = await _repo.GetUserInfoAsync(userDto.Username);
             string hashedPassword = BCrypt.Net.BCrypt.HashPassword(userDto.Password);
 
             if (user == null || BCrypt.Net.BCrypt.Verify(userDto.Password, user.PasswordHash) == false)
