@@ -10,7 +10,7 @@ namespace BankApp.Api.Extensions
             {
                 options.SwaggerDoc("v1", new OpenApiInfo
                 {
-                    Title = "Bank App API",
+                    Title = "Bank API",
                     Version = "v1"
                 });
 
@@ -43,7 +43,7 @@ namespace BankApp.Api.Extensions
 
             app.UseSwaggerUI(options =>
             {
-                options.SwaggerEndpoint("/swagger/v1/swagger.json", "Bank App API");
+                options.SwaggerEndpoint("/swagger/v1/swagger.json", "Bank API");
                 options.RoutePrefix = string.Empty;
             });
 

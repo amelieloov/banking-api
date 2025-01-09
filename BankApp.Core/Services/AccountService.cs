@@ -33,10 +33,6 @@ namespace BankApp.Core.Services
 
         public async Task<int> AddAccountAsync(int userId, AccountCreateDTO accountDto)
         {
-            //check if username exists etc
-            //_repo.GetAccountByUsername(account.Username);
-            //var customerId = await _repo.GetCustomerId(userId);
-
             var account = _mapper.Map<Account>(accountDto);
 
             return await _repo.AddAccountAsync(userId, account);
