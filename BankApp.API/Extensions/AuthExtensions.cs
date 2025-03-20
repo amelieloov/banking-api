@@ -6,8 +6,13 @@ namespace BankApp.Api.Extensions
 {
     public static class AuthExtensions
     {
-        public static IServiceCollection AddAuth(this IServiceCollection services)
+        public static IServiceCollection AddJwtAuthentication(this IServiceCollection services, IConfiguration configuration)
         {
+
+            var secretKey = configuration["Jwt:Key"];
+            var issuer = configuration["Jwt:Issuer"];
+            var audience = configuration["Jwt:Audience"];
+
             services.AddAuthentication(opt =>
             {
                 opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -21,9 +26,9 @@ namespace BankApp.Api.Extensions
                      ValidateAudience = true,
                      ValidateLifetime = true,
                      ValidateIssuerSigningKey = true,
-                     ValidIssuer = "https://localhost:7214/",
-                     ValidAudience = "https://localhost:7214/",
-                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("fkls5235k325bb25b23blb52352b35235b2b532knels"))
+                     ValidIssuer = issuer,
+                     ValidAudience = audience,
+                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey))
                  };
 
              });

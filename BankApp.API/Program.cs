@@ -13,19 +13,9 @@ builder.Services.AddAutoMapper(typeof(TransactionProfile).Assembly, typeof(Accou
 builder.Services.AddControllers();
 builder.Services.AddSwaggerExtended();
 
-builder.Services.AddSingleton<IBankAppDBContext, BankAppDBContext>();
-builder.Services.AddScoped<IAccountRepo, AccountRepo>();
-builder.Services.AddScoped<IAccountService, AccountService>();
-builder.Services.AddScoped<ICustomerRepo, CustomerRepo>();
-builder.Services.AddScoped<ICustomerService, CustomerService>();
-builder.Services.AddScoped<ILoanRepo, LoanRepo>();
-builder.Services.AddScoped<ILoanService, LoanService>();
-builder.Services.AddScoped<ITransactionRepo, TransactionRepo>();
-builder.Services.AddScoped<ITransactionService, TransactionService>();
-builder.Services.AddScoped<IUserRepo, UserRepo>();
-builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddApplicationDependencies();
 
-builder.Services.AddAuth();
+builder.Services.AddJwtAuthentication(builder.Configuration);
 
 var app = builder.Build();
 
