@@ -33,10 +33,9 @@ namespace BankApp.Api.Controllers
         public async Task<IActionResult> AddAccount(AccountCreateDTO accountDto)
         {
             int userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
-
             var accountId = await _service.AddAccountAsync(userId, accountDto);
 
-            return Ok($"Account created with id {accountId}.");
+            return NoContent();
         }
     }
 }
