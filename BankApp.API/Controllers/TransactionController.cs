@@ -49,7 +49,7 @@ namespace BankApp.Api.Controllers
             try
             {
                 var transactionResult = await _service.MakeTransferAsync(userId, transactionDto);
-                return Ok(transactionResult);
+                return Ok(new { result = transactionResult });
             }
             catch (UnauthorizedAccessException)
             {

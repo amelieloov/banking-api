@@ -27,7 +27,7 @@ namespace BankApp.Api.Controllers
 
             var loanId = await _service.AddLoanAsync(loanDto);
 
-            return Ok(@"Loan successfully added with id " + loanId);
+            return Ok(new { id = loanId});
         }
     }
 }
