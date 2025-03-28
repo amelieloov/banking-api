@@ -35,7 +35,7 @@ namespace BankApp.Api.Controllers
             int userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
             var accountId = await _service.AddAccountAsync(userId, accountDto);
 
-            return NoContent();
+            return Ok(new { id = accountId });
         }
     }
 }

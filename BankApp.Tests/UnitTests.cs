@@ -25,7 +25,6 @@ namespace BankApp.Tests
         [Fact]
         public async Task TestGetTransactionsForAccountAsync_returns_correct_transactions()
         {
-            // Arrange
             var expectedTransactions = new List<Transaction>
             {
                 new Transaction { TransactionId = 1, AccountId = 111, Amount = -10000.00m },
@@ -48,10 +47,8 @@ namespace BankApp.Tests
 
             var repo = new TransactionRepo(mockDbContext.Object);
 
-            // Act
             var result = await repo.GetTransactionsForAccountAsync(111);
 
-            // Assert
             Assert.NotNull(result);
             Assert.Equal(3, result.Count());
         }
